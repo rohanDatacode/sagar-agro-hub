@@ -110,17 +110,17 @@ export default function AdminDashboard() {
 
           <div className="p-6 rounded-xl bg-primary text-primary-foreground animate-fade-up" style={{ animationDelay: '100ms' }}>
             <h2 className="font-serif text-xl font-semibold mb-4">Quick Actions</h2>
-            <div className="space-y-3">
-              <Link to="/admin/products/new">
+            <div className="flex flex-col gap-3">
+              <Link to="/admin/products/new" className="block">
                 <Button variant="secondary" className="w-full justify-start gap-2">
                   <PlusCircle className="h-4 w-4" />
                   Add New Product
                 </Button>
               </Link>
-              <Link to="/admin/products">
+              <Link to="/admin/products" className="block">
                 <Button
                   variant="outline"
-                  className="w-full justify-start gap-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                  className="w-full justify-start gap-2 border-white/30 bg-white/10 text-white hover:bg-white/20"
                 >
                   <Package className="h-4 w-4" />
                   Manage Products

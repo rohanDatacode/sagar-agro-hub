@@ -41,7 +41,7 @@ export default function Index() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                  className="w-full sm:w-auto border-wheat/50 bg-transparent text-white hover:bg-wheat/20"
                 >
                   Contact Us
                 </Button>
