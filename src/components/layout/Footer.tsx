@@ -10,9 +10,7 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-wheat text-forest">
-                <Leaf className="h-6 w-6" />
-              </div>
+              <img src="/logo.svg" alt="Sagar Raj Green Logo" className="h-10 w-auto object-contain bg-white/10 rounded p-1" />
               <div>
                 <p className="font-serif font-semibold">Sagar Raj Green</p>
                 <p className="text-xs text-primary-foreground/70">Agro Biotech</p>
@@ -22,6 +20,9 @@ export function Footer() {
               Leading wholesaler and distributor of quality agricultural inputs,
               committed to sustainable farming practices.
             </p>
+            <div className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 bg-wheat/10 rounded-full border border-wheat/20">
+              <span className="text-wheat text-xs font-medium tracking-wide">Trusted by 1L+ Farmers & 400+ Dealers across India</span>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -50,11 +51,14 @@ export function Footer() {
               <Link to="/products?category=water-soluble" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
                 Water Soluble Fertilizers
               </Link>
-              <Link to="/products?category=growth-promoter" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
-                Growth Promoters
+              <Link to="/products?category=micronutrients" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
+                Micronutrients
               </Link>
-              <Link to="/products?category=bio-fertilizer" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
-                Bio Fertilizers
+              <Link to="/products?category=organic" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
+                Organic Products
+              </Link>
+              <Link to="/products?category=herbal" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
+                Herbal Products
               </Link>
             </nav>
           </div>

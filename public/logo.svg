@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <rect width="200" height="60" rx="10" fill="#2d6a4f"/>
+  <path d="M20 30c0-8 6-15 15-15s15 7 15 15c0 10-15 20-15 20S20 40 20 30z" fill="#f4a261"/>
+  <text x="60" y="36" font-family="serif" font-size="20" font-weight="bold" fill="#ffffff">Sagar Raj Green</text>
+</svg>

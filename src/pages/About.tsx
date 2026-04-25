@@ -53,8 +53,8 @@ export default function About() {
             <div className="grid grid-cols-2 gap-4 animate-fade-up" style={{ animationDelay: '200ms' }}>
               {[
                 { icon: Award, label: 'Years of Excellence', value: `${new Date().getFullYear() - 2017}+` },
-                { icon: Users, label: 'Happy Farmers', value: '5000+' },
-                { icon: TrendingUp, label: 'Annual Turnover', value: companyInfo.annualTurnover },
+                { icon: Users, label: 'Farmers Reached', value: companyInfo.stats.farmers },
+                { icon: TrendingUp, label: 'Dealership Network', value: companyInfo.stats.dealers },
                 { icon: MapPin, label: 'Location', value: 'Indore, MP' },
               ].map((item) => (
                 <div
@@ -158,7 +158,6 @@ export default function About() {
                     { label: 'Company Name', value: companyInfo.name },
                     { label: 'Nature of Business', value: companyInfo.natureOfBusiness },
                     { label: 'Legal Status', value: companyInfo.legalStatus },
-                    { label: 'Annual Turnover', value: companyInfo.annualTurnover },
                     { label: 'GST Registration Date', value: companyInfo.gstRegistrationDate },
                     { label: 'GST Number', value: companyInfo.gstNumber },
                     { label: 'Location', value: companyInfo.location },

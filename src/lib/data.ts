@@ -2,7 +2,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'water-soluble' | 'growth-promoter' | 'bio-fertilizer';
+  category: 'water-soluble' | 'micronutrients' | 'organic' | 'herbal';
   description: string;
   usage: string;
   benefits: string[];
@@ -12,8 +12,9 @@ export interface Product {
 
 export const categoryLabels: Record<Product['category'], string> = {
   'water-soluble': 'Water Soluble Fertilizers',
-  'growth-promoter': 'Growth Promoters',
-  'bio-fertilizer': 'Bio Fertilizers',
+  'micronutrients': 'Micronutrients (100% Water Soluble)',
+  'organic': 'Organic Products',
+  'herbal': 'Herbal Products',
 };
 
 export const initialProducts: Product[] = [
@@ -105,13 +106,16 @@ export const companyInfo = {
   name: 'Sagar Raj Green Agro Biotech Company',
   tagline: 'Growing Tomorrow, Naturally',
   location: 'Indore, Madhya Pradesh',
-  address: '123 Agricultural Zone, Scheme No. 78, Indore, Madhya Pradesh - 452010',
+  address: '138, Shiv Sagar Colony, Bijapur, Rau, Indore (M.P)',
   phone: '+91 98765 43210',
   email: 'info@sagarrajagro.com',
   natureOfBusiness: 'Wholesaler / Distributor',
   legalStatus: 'Proprietorship',
-  annualTurnover: '40 L – 1.5 Cr',
   gstRegistrationDate: '01-07-2017',
-  gstNumber: '08ARUPP5876C1Z3',
+  gstNumber: '23ARUPP5876C1ZB',
   foundedYear: 2017,
+  stats: {
+    farmers: '1L+',
+    dealers: '400+',
+  }
 };

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Leaf, Shield, Truck, Award, CheckCircle } from 'lucide-react';
+import { ArrowRight, Leaf, Shield, Truck, Users, Store, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/ui/product-card';
 import { SectionHeader } from '@/components/ui/section-header';
@@ -71,9 +71,9 @@ export default function Index() {
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
+              { label: 'Farmers Reached', value: companyInfo.stats.farmers, icon: Users },
+              { label: 'Dealership Network', value: companyInfo.stats.dealers, icon: Store },
               { label: 'Nature of Business', value: companyInfo.natureOfBusiness, icon: Truck },
-              { label: 'Legal Status', value: companyInfo.legalStatus, icon: Shield },
-              { label: 'Annual Turnover', value: companyInfo.annualTurnover, icon: Award },
               { label: 'GST Registered', value: companyInfo.gstRegistrationDate, icon: CheckCircle },
             ].map((item, index) => (
               <div
