@@ -10,22 +10,7 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        // Allow any localhost origin
-        if (origin.match(/^http:\/\/localhost:[0-9]+$/)) {
-            return callback(null, true);
-        }
-
-        // Block other origins
-        var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-    },
-    credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // Security Middlewares
