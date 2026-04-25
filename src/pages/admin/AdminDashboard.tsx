@@ -46,8 +46,9 @@ export default function AdminDashboard() {
 
   const categoryStats = {
     'water-soluble': products.filter((p) => p.category === 'water-soluble').length,
-    'growth-promoter': products.filter((p) => p.category === 'growth-promoter').length,
-    'bio-fertilizer': products.filter((p) => p.category === 'bio-fertilizer').length,
+    'micronutrients': products.filter((p) => p.category === 'micronutrients').length,
+    'organic': products.filter((p) => p.category === 'organic').length,
+    'herbal': products.filter((p) => p.category === 'herbal').length,
   };
 
   const totalValue = products.reduce((sum, p) => sum + p.price, 0);

@@ -10,7 +10,7 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <img src="/logo.svg" alt="Sagar Raj Green Logo" className="h-10 w-auto object-contain bg-white/10 rounded p-1" />
+              <img src="/logo.jpeg" alt="Sagar Raj Green Logo" className="h-10 w-auto object-contain bg-white/10 rounded p-1" />
               <div>
                 <p className="font-serif font-semibold">Sagar Raj Green</p>
                 <p className="text-xs text-primary-foreground/70">Agro Biotech</p>

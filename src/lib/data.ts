@@ -30,7 +30,7 @@ export const initialProducts: Product[] = [
   {
     id: '2',
     name: 'RootMax Bio Stimulant',
-    category: 'growth-promoter',
+    category: 'micronutrients',
     description: 'Advanced root development formula enriched with natural growth hormones and beneficial microorganisms for stronger root systems.',
     usage: 'Apply 2ml per liter of water as soil drench during transplanting and early vegetative stage.',
     benefits: ['Enhanced root development', 'Improved nutrient uptake', 'Stress resistance', 'Better transplant survival'],
@@ -39,7 +39,7 @@ export const initialProducts: Product[] = [
   {
     id: '3',
     name: 'BioNitro Plus',
-    category: 'bio-fertilizer',
+    category: 'organic',
     description: 'Nitrogen-fixing biofertilizer containing Azotobacter and Azospirillum for sustainable nitrogen supply to crops.',
     usage: 'Mix 200ml with 50kg of FYM or apply directly to soil at 1L per acre.',
     benefits: ['Natural nitrogen fixation', 'Improves soil health', 'Eco-friendly', 'Reduces chemical fertilizer need'],
@@ -57,7 +57,7 @@ export const initialProducts: Product[] = [
   {
     id: '5',
     name: 'PhytoZyme Growth',
-    category: 'growth-promoter',
+    category: 'micronutrients',
     description: 'Enzyme-based growth promoter derived from seaweed extracts for enhanced photosynthesis and plant vigor.',
     usage: 'Apply 1ml per liter of water as foliar spray every 15 days.',
     benefits: ['Increased chlorophyll content', 'Better flowering', 'Improved fruit set', 'Natural stress tolerance'],
@@ -66,7 +66,7 @@ export const initialProducts: Product[] = [
   {
     id: '6',
     name: 'PhosphoBac',
-    category: 'bio-fertilizer',
+    category: 'organic',
     description: 'Phosphate solubilizing bacteria (PSB) that unlock bound phosphorus in soil for better crop utilization.',
     usage: 'Apply 200ml mixed with organic matter per acre during soil preparation.',
     benefits: ['Releases locked phosphorus', 'Improves root growth', 'Sustainable agriculture', 'Cost-effective'],
@@ -84,7 +84,7 @@ export const initialProducts: Product[] = [
   {
     id: '8',
     name: 'FlowerMax Pro',
-    category: 'growth-promoter',
+    category: 'micronutrients',
     description: 'Specialized flowering promoter with cytokinin-based formula for increased flower production and retention.',
     usage: 'Apply 0.5ml per liter at bud initiation stage and repeat after 10 days.',
     benefits: ['More flowers per plant', 'Reduced flower drop', 'Uniform flowering', 'Higher fruit set'],
@@ -93,7 +93,7 @@ export const initialProducts: Product[] = [
   {
     id: '9',
     name: 'PotashBio K',
-    category: 'bio-fertilizer',
+    category: 'organic',
     description: 'Potash mobilizing bacteria that enhance potassium availability from soil reserves.',
     usage: 'Apply 250ml per acre through drip or mixed with irrigation water.',
     benefits: ['Mobilizes soil potassium', 'Improves fruit quality', 'Better disease resistance', 'Sustainable farming'],

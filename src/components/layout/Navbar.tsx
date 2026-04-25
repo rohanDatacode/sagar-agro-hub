@@ -24,7 +24,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
-          <img src="/logo.svg" alt="Sagar Raj Green Logo" className="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
+          <img src="/logo.jpeg" alt="Sagar Raj Green Logo" className="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
           <div className="hidden sm:block">
             <p className="font-serif text-lg font-semibold text-foreground leading-tight">
               Sagar Raj Green
