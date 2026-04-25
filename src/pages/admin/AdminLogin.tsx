@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Leaf, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,8 +18,13 @@ export default function AdminLogin() {
   });
 
   // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
+
   if (isAuthenticated) {
-    navigate('/admin/dashboard');
     return null;
   }
 
@@ -27,19 +32,24 @@ export default function AdminLogin() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    // Simulate API call removed - using real API via AuthContext
 
-    const success = login(credentials.email, credentials.password);
+    try {
+      const success = await login(credentials.email, credentials.password);
 
-    if (success) {
-      toast.success('Welcome back!', {
-        description: 'You have been logged in successfully.',
-      });
-      navigate('/admin/dashboard');
-    } else {
-      toast.error('Login failed', {
-        description: 'Invalid email or password. Please try again.',
+      if (success) {
+        toast.success('Welcome back!', {
+          description: 'You have been logged in successfully.',
+        });
+        navigate('/admin/dashboard');
+      } else {
+        toast.error('Login failed', {
+          description: 'Invalid email or password. Please try again.',
+        });
+      }
+    } catch (error) {
+      toast.error('Login error', {
+        description: 'An unexpected error occurred.',
       });
     }
 
@@ -71,27 +81,27 @@ export default function AdminLogin() {
 
           {/* Demo Credentials Notice */}
           <div className="mb-6 p-4 rounded-lg bg-muted/50 border border-border">
-            <p className="text-sm text-muted-foreground">
+            {/* <p className="text-sm text-muted-foreground">
               <strong className="text-foreground">Demo Credentials:</strong>
               <br />
               Email: admin@sagarrajagro.com
               <br />
               Password: admin123
-            </p>
+            </p> */}
           </div>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email">Username</Label>
               <Input
                 id="email"
-                type="email"
+                type="text"
                 value={credentials.email}
                 onChange={(e) =>
                   setCredentials((prev) => ({ ...prev, email: e.target.value }))
                 }
-                placeholder="admin@sagarrajagro.com"
+                placeholder="admin"
                 required
               />
             </div>

@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+# 🌱 Sagar Agro Hub
 
-## Project info
+**Sagar Agro Hub** is a comprehensive e-commerce and information platform designed for agricultural products. It connects farmers and customers with high-quality agro-products like fertilizers, growth promoters, and water-soluble solutions.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## 🎯 Purpose of the Project
+The main goal of this project is to digitalize the agricultural product business by providing:
+1.  **Product Showcase**: A beautiful catalog of agricultural products.
+2.  **Admin Management**: A secure dashboard for store owners to manage products and view inquiries.
+3.  **Customer Connection**: A direct channel for customers to contact the business via a dynamic Contact Us form.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🔄 Process Flow
+This is a full-stack application (Frontend + Backend + Database).
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 1. Admin Workflow
+*   **Login**: The admin logs in securely at `/admin/login`.
+*   **Authentication**: The backend verifies credentials and issues a secure **JWT Token**.
+*   **Dashboard**: The admin is redirected to the Dashboard to view stats and recent inquiries.
+*   **Product Management**: The admin can **Add, Edit, and Delete** products dynamically. These changes are instantly reflected on the website.
+*   **Inquiries**: The admin can view messages submitted by customers.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 2. Customer Workflow
+*   **Browse**: Customers visit the website to view products. The product list is fetched in real-time from the database.
+*   **Search & Filter**: Customers can filter products by category.
+*   **Contact**: Customers go to the **Contact Us** page (`/contact`) to send a message.
+*   **Submission**: The form data is sent to the backend API and saved in the **SQLite Database**.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Tech Stack & Technologies Used
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Frontend (Client-Side)
+*   **React + Vite**: For a blazing fast, modern user interface.
+*   **TypeScript**: Ensures type safety and fewer bugs.
+*   **Tailwind CSS**: For beautiful, responsive styling.
+*   **Shadcn UI**: For premium, accessible UI components.
+*   **Lucide React**: For modern icons.
 
-Follow these steps:
+### Backend (Server-Side)
+*   **Node.js**: The runtime environment for the server.
+*   **Express.js**: The web framework for handling API requests.
+*   **Sequelize**: An ORM to interact with the database easily.
+*   **SQLite**: A lightweight, file-based SQL database.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Security
+*   **BCrypt**: Encrypts passwords so they are never stored in plain text.
+*   **JWT (JSON Web Tokens)**: Securely handles user sessions.
+*   **CORS**: Protects the API but allows flexible local development.
+*   **Protected Routes**: Sensitive actions (like creating admins or modifying products) are protected by secret keys and tokens.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🚀 Future Enhancements
+We have now implemented the core Product Management system. Here is what is planned next:
+1.  **Payment Gateway**: Integrate Razorpay or Stripe to allow customers to buy products online.
+2.  **Email Notifications**: Automatically email the admin when a new inquiry is received.
+3.  **Order Management**: A full system to track customer orders and delivery status.
+4.  **Cloud Deployment**: Hosting the app on Vercel (Frontend) and Render/Railway (Backend) for global access.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+---
+
+## 🏃‍♂️ How to Run Locally
+
+### 1. Start the Backend
+```bash
+cd server
+npm install  # First time only
+npm start
+```
+
+### 2. Start the Frontend
+Open a new terminal:
+```bash
+npm install  # First time only
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Visit `http://localhost:5173` to see the app!

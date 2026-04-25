@@ -8,6 +8,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { companyInfo } from '@/lib/data';
 import { toast } from 'sonner';
+import { API_URL } from '@/config/api';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -30,21 +31,38 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch(`${API_URL}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    toast.success('Message sent successfully!', {
-      description: 'We will get back to you within 24 hours.',
-    });
+      if (response.ok) {
+        toast.success('Message sent successfully!', {
+          description: 'We will get back to you within 24 hours.',
+        });
 
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-    });
-    setIsSubmitting(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+        });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      toast.error('Failed to send message', {
+        description: 'Please try again later.',
+      });
+      console.error('Contact form error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactDetails = [

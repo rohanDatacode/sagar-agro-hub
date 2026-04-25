@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Product, initialProducts } from '@/lib/data';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Product } from '@/lib/data';
+import { API_URL } from '@/config/api';
 
 interface ProductContextType {
   products: Product[];
@@ -12,24 +13,81 @@ interface ProductContextType {
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export function ProductProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  const addProduct = (product: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      ...product,
-      id: Date.now().toString(),
-    };
-    setProducts((prev) => [...prev, newProduct]);
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch(`${API_URL}/products`);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+           setProducts(data);
+        } else if (data && data.products) {
+           setProducts(data.products);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch products', err);
+    }
   };
 
-  const updateProduct = (id: string, product: Omit<Product, 'id'>) => {
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...product, id } : p))
-    );
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const addProduct = async (product: Omit<Product, 'id'>) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`${API_URL}/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(product),
+      });
+      if (res.ok) {
+        fetchProducts(); // Refresh list
+      }
+    } catch (err) {
+      console.error('Failed to add product', err);
+    }
   };
 
-  const deleteProduct = (id: string) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+  const updateProduct = async (id: string, product: Omit<Product, 'id'>) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`${API_URL}/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(product),
+      });
+      if (res.ok) {
+        fetchProducts();
+      }
+    } catch (err) {
+      console.error('Failed to update product', err);
+    }
+  };
+
+  const deleteProduct = async (id: string) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`${API_URL}/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        fetchProducts();
+      }
+    } catch (err) {
+      console.error('Failed to delete product', err);
+    }
   };
 
   const getProduct = (id: string) => {

@@ -1,12 +1,48 @@
 import { Link } from 'react-router-dom';
-import { Package, Droplets, Sprout, Leaf, TrendingUp, PlusCircle, ArrowRight } from 'lucide-react';
+import { Package, Droplets, Sprout, Leaf, TrendingUp, PlusCircle, ArrowRight, MessageSquare, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { useProducts } from '@/context/ProductContext';
 import { categoryLabels } from '@/lib/data';
+import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
+import { API_URL } from '@/config/api';
+
+interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status: string;
+  createdAt: string;
+}
 
 export default function AdminDashboard() {
   const { products } = useProducts();
+  const [contacts, setContacts] = useState<ContactSubmission[]>([]);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const token = localStorage.getItem('adminToken');
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_URL}/contact`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setContacts(data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch contacts', err);
+        toast.error('Failed to load contact submissions');
+      }
+    };
+    fetchContacts();
+  }, []);
 
   const categoryStats = {
     'water-soluble': products.filter((p) => p.category === 'water-soluble').length,
@@ -25,25 +61,25 @@ export default function AdminDashboard() {
       href: '/admin/products',
     },
     {
-      label: categoryLabels['water-soluble'],
-      value: categoryStats['water-soluble'],
-      icon: Droplets,
-      color: 'bg-blue-100 text-blue-600',
-      href: '/admin/products?category=water-soluble',
+      label: 'New Messages',
+      value: contacts.filter(c => c.status === 'new').length,
+      icon: MessageSquare,
+      color: 'bg-purple-100 text-purple-600',
+      href: '#messages',
     },
     {
-      label: categoryLabels['growth-promoter'],
-      value: categoryStats['growth-promoter'],
-      icon: Sprout,
-      color: 'bg-green-100 text-green-600',
-      href: '/admin/products?category=growth-promoter',
-    },
-    {
-      label: categoryLabels['bio-fertilizer'],
-      value: categoryStats['bio-fertilizer'],
-      icon: Leaf,
+      label: 'Total Messages',
+      value: contacts.length,
+      icon: Mail,
       color: 'bg-amber-100 text-amber-600',
-      href: '/admin/products?category=bio-fertilizer',
+      href: '#messages',
+    },
+    {
+      label: 'Pending Orders', // Placeholder
+      value: 0,
+      icon: TrendingUp,
+      color: 'bg-green-100 text-green-600',
+      href: '#',
     },
   ];
 
@@ -55,7 +91,7 @@ export default function AdminDashboard() {
           <div>
             <h1 className="font-serif text-3xl font-bold text-foreground">Dashboard</h1>
             <p className="text-muted-foreground mt-1">
-              Welcome back! Here's an overview of your products.
+              Welcome back! Here's an overview of your store.
             </p>
           </div>
           <Link to="/admin/products/new">
@@ -89,48 +125,55 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Summary Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="p-6 rounded-xl bg-card border border-border animate-fade-up">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-10 w-10 rounded-lg bg-wheat/20 flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-wheat" />
-              </div>
-              <h2 className="font-serif text-xl font-semibold text-foreground">
-                Inventory Value
-              </h2>
-            </div>
-            <p className="text-4xl font-bold text-foreground">
-              ₹{totalValue.toLocaleString()}
-            </p>
-            <p className="text-muted-foreground mt-1">
-              Total value of all products in catalog
-            </p>
+        {/* Recent Messages Section */}
+        <div id="messages" className="p-6 rounded-xl bg-card border border-border animate-fade-up">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-serif text-xl font-semibold text-foreground">
+              Recent Inquiries
+            </h2>
           </div>
-
-          <div className="p-6 rounded-xl bg-primary text-primary-foreground animate-fade-up" style={{ animationDelay: '100ms' }}>
-            <h2 className="font-serif text-xl font-semibold mb-4">Quick Actions</h2>
-            <div className="flex flex-col gap-3">
-              <Link to="/admin/products/new" className="block">
-                <Button variant="secondary" className="w-full justify-start gap-2">
-                  <PlusCircle className="h-4 w-4" />
-                  Add New Product
-                </Button>
-              </Link>
-              <Link to="/admin/products" className="block">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start gap-2 border-white/30 bg-white/10 text-white hover:bg-white/20"
-                >
-                  <Package className="h-4 w-4" />
-                  Manage Products
-                </Button>
-              </Link>
-            </div>
+          <div className="overflow-x-auto">
+            {contacts.length === 0 ? (
+              <p className="text-muted-foreground py-4">No inquiries yet.</p>
+            ) : (
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Date</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Name</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Subject</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {contacts.slice(0, 5).map((contact) => (
+                    <tr key={contact.id} className="hover:bg-muted/50 transition-colors">
+                      <td className="py-3 px-4 text-sm text-muted-foreground">
+                        {new Date(contact.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="py-3 px-4 font-medium text-foreground">
+                        {contact.name}
+                        <div className="text-xs text-muted-foreground">{contact.email}</div>
+                        {contact.phone && <div className="text-xs text-muted-foreground">{contact.phone}</div>}
+                      </td>
+                      <td className="py-3 px-4 text-sm text-foreground">
+                        {contact.subject}
+                      </td>
+                      <td className="py-3 px-4">
+                        <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${contact.status === 'new' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
+                          }`}>
+                          {contact.status.toUpperCase()}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
 
-        {/* Recent Products */}
+        {/* Recent Products (Existing) */}
         <div className="p-6 rounded-xl bg-card border border-border animate-fade-up">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-serif text-xl font-semibold text-foreground">
