@@ -51,6 +51,12 @@ export function Footer() {
               <Link to="/products?category=water-soluble" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
                 Water Soluble Fertilizers
               </Link>
+              <Link to="/products?category=growth-promoter" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
+                Growth Promoters
+              </Link>
+              <Link to="/products?category=bio-fertilizer" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
+                Bio Fertilizers
+              </Link>
               <Link to="/products?category=micronutrients" className="text-sm text-primary-foreground/80 hover:text-wheat transition-colors">
                 Micronutrients
               </Link>

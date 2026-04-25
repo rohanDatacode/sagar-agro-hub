@@ -2,7 +2,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'water-soluble' | 'micronutrients' | 'organic' | 'herbal';
+  category: 'water-soluble' | 'growth-promoter' | 'bio-fertilizer' | 'micronutrients' | 'organic' | 'herbal';
   description: string;
   usage: string;
   benefits: string[];
@@ -12,6 +12,8 @@ export interface Product {
 
 export const categoryLabels: Record<Product['category'], string> = {
   'water-soluble': 'Water Soluble Fertilizers',
+  'growth-promoter': 'Growth Promoters',
+  'bio-fertilizer': 'Bio Fertilizers',
   'micronutrients': 'Micronutrients (100% Water Soluble)',
   'organic': 'Organic Products',
   'herbal': 'Herbal Products',
