@@ -48,9 +48,13 @@ export function ProductProvider({ children }: { children: ReactNode }) {
       });
       if (res.ok) {
         fetchProducts(); // Refresh list
+      } else {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.message || 'Failed to add product');
       }
     } catch (err) {
       console.error('Failed to add product', err);
+      throw err;
     }
   };
 
@@ -67,9 +71,13 @@ export function ProductProvider({ children }: { children: ReactNode }) {
       });
       if (res.ok) {
         fetchProducts();
+      } else {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.message || 'Failed to update product');
       }
     } catch (err) {
       console.error('Failed to update product', err);
+      throw err;
     }
   };
 

@@ -29,8 +29,12 @@ const Product = sequelize.define('Product', {
         defaultValue: [],
     },
     price: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.STRING,
         allowNull: false,
+    },
+    status: {
+        type: DataTypes.ENUM('Available', 'Out of Stock', 'Discontinued'),
+        defaultValue: 'Available',
     },
     image: {
         type: DataTypes.STRING,

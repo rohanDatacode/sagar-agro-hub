@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, PlusCircle, Pencil, Trash2, Droplets, Sprout, Leaf } from 'lucide-react';
+import { Search, PlusCircle, Pencil, Trash2, Droplets, Sprout, Leaf, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -147,7 +147,7 @@ export default function AdminProducts() {
               <tbody className="divide-y divide-border">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product) => {
-                    const Icon = categoryIcons[product.category];
+                    const Icon = categoryIcons[product.category as keyof typeof categoryIcons] || Package;
                     return (
                       <tr key={product.id} className="hover:bg-muted/30 transition-colors">
                         <td className="py-4 px-6">
@@ -161,14 +161,14 @@ export default function AdminProducts() {
                         <td className="py-4 px-6">
                           <Badge
                             variant="outline"
-                            className={cn('gap-1.5', categoryColors[product.category])}
+                            className={cn('gap-1.5', categoryColors[product.category as keyof typeof categoryColors] || 'bg-gray-100 text-gray-700 border-gray-200')}
                           >
                             <Icon className="h-3 w-3" />
-                            {categoryLabels[product.category]}
+                            {categoryLabels[product.category as keyof typeof categoryLabels] || product.category}
                           </Badge>
                         </td>
                         <td className="py-4 px-6 text-right font-medium text-foreground">
-                          ₹{product.price.toLocaleString()}
+                          {typeof product.price === 'number' ? `₹${product.price.toLocaleString()}` : product.price}
                         </td>
                         <td className="py-4 px-6">
                           <div className="flex items-center justify-end gap-2">

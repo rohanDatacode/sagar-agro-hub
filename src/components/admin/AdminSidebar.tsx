@@ -8,7 +8,8 @@ import {
   Home,
   ChevronLeft,
   ChevronRight,
-  ShoppingBag
+  ShoppingBag,
+  Tags
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
@@ -20,6 +21,7 @@ const navItems = [
   { href: '/admin/products', label: 'All Products', icon: Package },
   { href: '/admin/products/new', label: 'Add Product', icon: PlusCircle },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
+  { href: '/admin/categories', label: 'Categories', icon: Tags },
 ];
 
 export function AdminSidebar() {

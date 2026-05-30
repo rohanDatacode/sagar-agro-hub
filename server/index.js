@@ -29,6 +29,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
+app.use('/api/categories', require('./routes/categories'));
 
 // Ensure associations are loaded before database sync
 require('./models/OrderItem');
@@ -46,7 +47,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 // Sync database and start server
-sequelize.sync().then(() => {
+sequelize.sync({ alter: true }).then(() => {
     console.log('Database synced');
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);

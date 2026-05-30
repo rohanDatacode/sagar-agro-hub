@@ -50,6 +50,26 @@ export default function AdminOrders() {
     }
   };
 
+  const updatePaymentStatus = async (orderId: string, paymentStatus: string) => {
+    try {
+      const res = await fetch(`${API_URL}/orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('adminToken')}`
+        },
+        body: JSON.stringify({ paymentStatus })
+      });
+
+      if (res.ok) {
+        fetchOrders();
+        toast.success(`Payment marked as ${paymentStatus}`);
+      }
+    } catch (err) {
+      toast.error('Payment status update failed');
+    }
+  };
+
   if (loading) return <AdminLayout><div className="p-8">Loading orders...</div></AdminLayout>;
 
   return (
@@ -94,7 +114,19 @@ export default function AdminOrders() {
                     <p><span className="text-muted-foreground">Email:</span> {order.customerEmail}</p>
                     <p><span className="text-muted-foreground">Phone:</span> {order.customerPhone}</p>
                     <p><span className="text-muted-foreground">Address:</span> {order.shippingAddress}</p>
-                    <p className="mt-2 text-xs text-muted-foreground">Payment: {order.paymentMethod} ({order.paymentStatus})</p>
+                    <p className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
+                      Payment: {order.paymentMethod} ({order.paymentStatus})
+                      {order.paymentStatus === 'Pending' && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="h-6 text-[10px] px-2 ml-2" 
+                          onClick={() => updatePaymentStatus(order.id, 'Paid')}
+                        >
+                          Mark Paid
+                        </Button>
+                      )}
+                    </p>
                   </div>
                 </div>
                 

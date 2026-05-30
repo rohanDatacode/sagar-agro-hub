@@ -14,8 +14,9 @@ import {
 } from '@/components/ui/select';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { useProducts } from '@/context/ProductContext';
-import { categoryLabels, Product } from '@/lib/data';
+import { Product } from '@/lib/data';
 import { toast } from 'sonner';
+import { API_URL } from '@/config/api';
 
 type ProductFormData = Omit<Product, 'id'>;
 
@@ -25,7 +26,8 @@ const initialFormData: ProductFormData = {
   description: '',
   usage: '',
   benefits: [''],
-  price: 0,
+  price: '',
+  status: 'Available',
 };
 
 export default function AdminProductForm() {
@@ -34,9 +36,19 @@ export default function AdminProductForm() {
   const { addProduct, updateProduct, getProduct } = useProducts();
   const [formData, setFormData] = useState<ProductFormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
 
   const isEditing = !!id;
   const pageTitle = isEditing ? 'Edit Product' : 'Add New Product';
+
+  useEffect(() => {
+    fetch(`${API_URL}/categories`)
+      .then(res => res.json())
+      .then(data => {
+        if(Array.isArray(data)) setCategories(data);
+      })
+      .catch(err => console.error("Failed to load categories"));
+  }, []);
 
   useEffect(() => {
     if (isEditing) {
@@ -49,6 +61,7 @@ export default function AdminProductForm() {
           usage: product.usage,
           benefits: product.benefits.length > 0 ? product.benefits : [''],
           price: product.price,
+          status: product.status || 'Available',
         });
       } else {
         toast.error('Product not found');
@@ -63,8 +76,12 @@ export default function AdminProductForm() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'price' ? parseFloat(value) || 0 : value,
+      [name]: value,
     }));
+  };
+
+  const handleStatusChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, status: value }));
   };
 
   const handleCategoryChange = (value: Product['category']) => {
@@ -109,16 +126,20 @@ export default function AdminProductForm() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    if (isEditing) {
-      updateProduct(id, productData);
-      toast.success('Product updated successfully');
-    } else {
-      addProduct(productData);
-      toast.success('Product added successfully');
+    try {
+      if (isEditing) {
+        await updateProduct(id, productData);
+        toast.success('Product updated successfully');
+      } else {
+        await addProduct(productData);
+        toast.success('Product added successfully');
+      }
+      navigate('/admin/products');
+    } catch (error: any) {
+      toast.error(error.message || 'An error occurred while saving the product');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
-    navigate('/admin/products');
   };
 
   return (
@@ -165,11 +186,13 @@ export default function AdminProductForm() {
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.entries(categoryLabels).map(([value, label]) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
+                  {categories.length > 0 ? categories.map((cat) => (
+                    <SelectItem key={cat.id || cat.name} value={cat.name}>
+                      {cat.name}
                     </SelectItem>
-                  ))}
+                  )) : (
+                    <SelectItem value="water-soluble">Water Soluble Fertilizers</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -241,18 +264,31 @@ export default function AdminProductForm() {
 
             {/* Price */}
             <div className="space-y-2">
-              <Label htmlFor="price">Price (₹) *</Label>
+              <Label htmlFor="price">Price *</Label>
               <Input
                 id="price"
                 name="price"
-                type="number"
-                min="0"
-                step="1"
+                type="text"
                 value={formData.price}
                 onChange={handleChange}
-                placeholder="e.g., 450"
+                placeholder="e.g., ₹20/kg or ₹50 per unit"
                 required
               />
+            </div>
+
+            {/* Status */}
+            <div className="space-y-2">
+              <Label>Status *</Label>
+              <Select value={formData.status} onValueChange={handleStatusChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Available">Available</SelectItem>
+                  <SelectItem value="Out of Stock">Out of Stock</SelectItem>
+                  <SelectItem value="Discontinued">Discontinued</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

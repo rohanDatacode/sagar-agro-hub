@@ -59,7 +59,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setCart([]);
 
-  const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const parsePrice = (price: string | number): number => {
+    if (typeof price === 'number') return price;
+    const match = String(price).replace(/,/g, '').match(/\d+(\.\d+)?/);
+    return match ? parseFloat(match[0]) : 0;
+  };
+
+  const cartTotal = cart.reduce((total, item) => total + parsePrice(item.price) * item.quantity, 0);
 
   return (
     <CartContext.Provider

@@ -53,7 +53,13 @@ export default function AdminDashboard() {
     'herbal': products.filter((p) => p.category === 'herbal').length,
   };
 
-  const totalValue = products.reduce((sum, p) => sum + p.price, 0);
+  const parsePrice = (price: string | number): number => {
+    if (typeof price === 'number') return price;
+    const match = String(price).replace(/,/g, '').match(/\d+(\.\d+)?/);
+    return match ? parseFloat(match[0]) : 0;
+  };
+
+  const totalValue = products.reduce((sum, p) => sum + parsePrice(p.price), 0);
 
   const stats = [
     {
@@ -120,7 +126,6 @@ export default function AdminDashboard() {
                 >
                   <stat.icon className="h-6 w-6" />
                 </div>
-                <ArrowRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <p className="mt-4 text-3xl font-bold text-foreground">{stat.value}</p>
               <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
@@ -216,10 +221,10 @@ export default function AdminDashboard() {
                       </Link>
                     </td>
                     <td className="py-3 px-4 text-sm text-muted-foreground">
-                      {categoryLabels[product.category]}
+                      {categoryLabels[product.category as keyof typeof categoryLabels] || product.category}
                     </td>
                     <td className="py-3 px-4 text-right font-medium text-foreground">
-                      ₹{product.price.toLocaleString()}
+                      {typeof product.price === 'number' ? `₹${product.price.toLocaleString()}` : product.price}
                     </td>
                   </tr>
                 ))}

@@ -42,9 +42,10 @@ export default function Products() {
 
   const categories: { value: CategoryFilter; label: string }[] = [
     { value: 'all', label: 'All Products' },
-    { value: 'water-soluble', label: categoryLabels['water-soluble'] },
-    { value: 'growth-promoter', label: categoryLabels['growth-promoter'] },
-    { value: 'bio-fertilizer', label: categoryLabels['bio-fertilizer'] },
+    ...Object.entries(categoryLabels).map(([value, label]) => ({
+      value: value as CategoryFilter,
+      label,
+    }))
   ];
 
   return (

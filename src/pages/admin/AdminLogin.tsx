@@ -79,16 +79,7 @@ export default function AdminLogin() {
             <p className="text-muted-foreground mt-1">Sign in to manage your products</p>
           </div>
 
-          {/* Demo Credentials Notice */}
-          <div className="mb-6 p-4 rounded-lg bg-muted/50 border border-border">
-            {/* <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Demo Credentials:</strong>
-              <br />
-              Email: admin@sagarrajagro.com
-              <br />
-              Password: admin123
-            </p> */}
-          </div>
+          {/* Demo Credentials Notice Removed */}
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">

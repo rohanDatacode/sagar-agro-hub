@@ -32,13 +32,20 @@ router.post(
             let totalAmount = 0;
             const processedItems = [];
 
+            const parsePrice = (price) => {
+                if (typeof price === 'number') return price;
+                const match = String(price).replace(/,/g, '').match(/\d+(\.\d+)?/);
+                return match ? parseFloat(match[0]) : 0;
+            };
+
             for (const item of items) {
                 const product = await Product.findByPk(item.productId);
                 if (!product) {
                     return res.status(400).json({ message: `Product ${item.productId} not found` });
                 }
                 const price = product.price;
-                totalAmount += price * item.quantity;
+                const numericPrice = parsePrice(price);
+                totalAmount += numericPrice * item.quantity;
                 
                 processedItems.push({
                     productId: product.id,

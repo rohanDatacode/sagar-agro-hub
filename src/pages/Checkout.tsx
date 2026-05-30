@@ -35,6 +35,19 @@ export default function Checkout() {
       return;
     }
 
+    if (!/^[A-Za-z\s]+$/.test(formData.customerName)) {
+      toast.error('Full Name should contain only alphabets and spaces');
+      return;
+    }
+    if (!/^\d{10}$/.test(formData.customerPhone)) {
+      toast.error('Phone Number must be exactly 10 digits');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customerEmail)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const orderData = {
@@ -54,8 +67,8 @@ export default function Checkout() {
       }
 
       clearCart();
-      setIsSuccess(true);
       toast.success('Order placed successfully!');
+      navigate('/track');
     } catch (err: any) {
       toast.error(err.message || 'Server error occurred');
     } finally {
@@ -151,11 +164,11 @@ export default function Checkout() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="space-y-2">
                     <Label htmlFor="customerName">Full Name</Label>
-                    <Input id="customerName" name="customerName" value={formData.customerName} onChange={handleInputChange} required placeholder="John Doe" />
+                    <Input id="customerName" name="customerName" value={formData.customerName} onChange={handleInputChange} required pattern="[A-Za-z\s]+" title="Alphabets and spaces only" placeholder="John Doe" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="customerPhone">Phone Number</Label>
-                    <Input id="customerPhone" name="customerPhone" value={formData.customerPhone} onChange={handleInputChange} required placeholder="+91 98765 43210" />
+                    <Input id="customerPhone" name="customerPhone" value={formData.customerPhone} onChange={handleInputChange} required pattern="\d{10}" title="Exactly 10 digits" placeholder="9876543210" />
                   </div>
                 </div>
                 <div className="space-y-2 mb-6">

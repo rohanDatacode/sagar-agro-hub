@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { useProducts } from '@/context/ProductContext';
+import { useCart } from '@/context/CartContext';
 import { categoryLabels, Product } from '@/lib/data';
 import { cn } from '@/lib/utils';
 
@@ -23,8 +24,16 @@ export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { getProduct, products } = useProducts();
+  const { addToCart } = useCart();
 
   const product = id ? getProduct(id) : undefined;
+
+  const handleOrder = () => {
+    if (product) {
+      addToCart(product);
+      navigate('/checkout');
+    }
+  };
 
   if (!product) {
     return (
@@ -47,7 +56,7 @@ export default function ProductDetail() {
     );
   }
 
-  const Icon = categoryIcons[product.category];
+  const Icon = categoryIcons[product.category as keyof typeof categoryIcons] || Package;
   const relatedProducts = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3);
@@ -89,10 +98,10 @@ export default function ProductDetail() {
               <div>
                 <Badge
                   variant="outline"
-                  className={cn('gap-1.5 mb-4', categoryColors[product.category])}
+                  className={cn('gap-1.5 mb-4', categoryColors[product.category as keyof typeof categoryColors] || 'bg-gray-100 text-gray-700 border-gray-200')}
                 >
                   <Icon className="h-3 w-3" />
-                  {categoryLabels[product.category]}
+                  {categoryLabels[product.category as keyof typeof categoryLabels] || product.category}
                 </Badge>
                 <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
                   {product.name}
@@ -105,7 +114,7 @@ export default function ProductDetail() {
 
               <div className="flex items-baseline gap-2">
                 <span className="font-serif text-4xl font-bold text-primary">
-                  ₹{product.price.toLocaleString()}
+                  {typeof product.price === 'number' ? `₹${product.price.toLocaleString()}` : product.price}
                 </span>
                 <span className="text-muted-foreground">per unit</span>
               </div>
@@ -141,7 +150,7 @@ export default function ProductDetail() {
 
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="flex-1 gap-2">
+                <Button size="lg" className="flex-1 gap-2" onClick={handleOrder}>
                   <Package className="h-4 w-4" />
                   Contact for Order
                 </Button>
@@ -169,7 +178,7 @@ export default function ProductDetail() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedProducts.map((relatedProduct) => {
-                const RelatedIcon = categoryIcons[relatedProduct.category];
+                const RelatedIcon = categoryIcons[relatedProduct.category as keyof typeof categoryIcons] || Package;
                 return (
                   <Link
                     key={relatedProduct.id}
@@ -186,7 +195,7 @@ export default function ProductDetail() {
                       {relatedProduct.description}
                     </p>
                     <p className="font-semibold text-primary mt-3">
-                      ₹{relatedProduct.price.toLocaleString()}
+                      {typeof relatedProduct.price === 'number' ? `₹${relatedProduct.price.toLocaleString()}` : relatedProduct.price}
                     </p>
                   </Link>
                 );

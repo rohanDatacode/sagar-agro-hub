@@ -52,7 +52,7 @@ router.post(
         auth,
         [
             body('name', 'Name is required').not().isEmpty(),
-            body('price', 'Price must be a positive number').isFloat({ min: 0 }),
+            body('price', 'Price is required').not().isEmpty(),
             body('category', 'Category is required').not().isEmpty()
         ]
     ],
@@ -62,7 +62,7 @@ router.post(
             return res.status(400).json({ status: 'error', errors: errors.array() });
         }
 
-        const { name, category, description, usage, benefits, price, image } = req.body;
+        const { name, category, description, usage, benefits, price, image, status } = req.body;
 
         try {
             const newProduct = await Product.create({
@@ -73,6 +73,7 @@ router.post(
                 benefits,
                 price,
                 image,
+                status,
             });
 
             res.status(201).json(newProduct);
@@ -86,7 +87,7 @@ router.post(
 // @desc    Update a product
 // @access  Private (Admin only)
 router.put('/:id', auth, async (req, res) => {
-    const { name, category, description, usage, benefits, price, image } = req.body;
+    const { name, category, description, usage, benefits, price, image, status } = req.body;
 
     try {
         const product = await Product.findByPk(req.params.id);
@@ -99,6 +100,7 @@ router.put('/:id', auth, async (req, res) => {
         product.benefits = benefits || product.benefits;
         product.price = price || product.price;
         product.image = image || product.image;
+        if (status) product.status = status;
 
         await product.save();
         res.json(product);

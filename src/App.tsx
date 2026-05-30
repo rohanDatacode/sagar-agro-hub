@@ -22,6 +22,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminProductForm from "./pages/admin/AdminProductForm";
 import AdminOrders from "./pages/admin/AdminOrders";
+import AdminCategories from "./pages/admin/AdminCategories";
+import { ScrollToTop } from "./components/layout/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ScrollToTop />
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Index />} />
@@ -51,6 +54,7 @@ const App = () => (
                 <Route path="/admin/products/new" element={<AdminProductForm />} />
                 <Route path="/admin/products/:id/edit" element={<AdminProductForm />} />
                 <Route path="/admin/orders" element={<AdminOrders />} />
+                <Route path="/admin/categories" element={<AdminCategories />} />
 
                 {/* Catch-all */}
                 <Route path="*" element={<NotFound />} />

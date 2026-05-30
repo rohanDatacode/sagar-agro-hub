@@ -152,12 +152,14 @@ export default function Index() {
             Get in touch with our team of agricultural experts to find the perfect
             products for your farming needs.
           </p>
-          <Link to="/contact">
-            <Button size="lg" className="bg-wheat text-forest hover:bg-wheat/90 gap-2">
-              Contact Us Today
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+          <div className="pt-8">
+            <Link to="/contact">
+              <Button size="lg" className="bg-wheat text-forest hover:bg-wheat/90 gap-2">
+                Contact Us Today
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </MainLayout>
