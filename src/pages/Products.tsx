@@ -67,8 +67,9 @@ export default function Products() {
       <section className="py-12 md:py-16 bg-background">
         <div className="container">
           {/* Search and Filters */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8 animate-fade-up">
-            <div className="relative flex-1">
+          <div className="flex flex-col gap-6 mb-8 animate-fade-up">
+            {/* Search */}
+            <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
@@ -78,28 +79,30 @@ export default function Products() {
                 className="pl-10"
               />
             </div>
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Filter:</span>
-            </div>
-          </div>
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8 animate-fade-up" style={{ animationDelay: '100ms' }}>
-            {categories.map((cat) => (
-              <Button
-                key={cat.value}
-                variant={activeCategory === cat.value ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => handleCategoryChange(cat.value)}
-                className={cn(
-                  'transition-all',
-                  activeCategory === cat.value && 'shadow-md'
-                )}
-              >
-                {cat.label}
-              </Button>
-            ))}
+            {/* Category Tabs */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3" style={{ animationDelay: '100ms' }}>
+              <div className="flex items-center gap-2 shrink-0 mb-1 sm:mb-0">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium text-muted-foreground">Filter:</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((cat) => (
+                  <Button
+                    key={cat.value}
+                    variant={activeCategory === cat.value ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => handleCategoryChange(cat.value)}
+                    className={cn(
+                      'transition-all',
+                      activeCategory === cat.value && 'shadow-md'
+                    )}
+                  >
+                    {cat.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Results Count */}
